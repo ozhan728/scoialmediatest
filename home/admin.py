@@ -5,7 +5,7 @@ from .models import Post
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('user','slug','created','updated')
-    search_fields = ('slug','body')
+    search_fields = ('slug','body','user')
     list_filter = ('created','updated','user')
     prepopulated_fields = {'slug':('body',)}
     raw_id_fields = ('user',)
