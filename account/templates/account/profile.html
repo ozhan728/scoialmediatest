@@ -5,4 +5,11 @@
     <h2 class="text-center" > {{ user.username }} </h2>
     <h3 class="text-center" > {{ user.email }} </h3>
 
+    <div class="card" >
+        {% for post in posts %}
+        <h2 class="card border-dark mb-3">  </h2>
+            <a href="{% url 'home:post_detail' post.id post.slug %}" class="card-body" > {{ post.body|truncatewords:10 }}  </a>
+        {% endfor %}
+    </div>
+
 {% endblock %}

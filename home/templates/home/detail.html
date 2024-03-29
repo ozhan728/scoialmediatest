@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4  class="card border-dark mb-3" style="max-width: 50rem;"  >  &nbsp {{ post.body }} </h4>
+    <div class="card border-info mb-3" style="max-width: 25rem;">  &nbsp Written By :  {{ post.user.username }} - {{ post.updated}} </div>
+
+{% endblock %}
