@@ -75,3 +75,4 @@ class UserProfileView(LoginRequiredMixin,View) :
         user = User.objects.get(pk=user_id)
         post = Post.objects.filter(user=user)
         return render(request,'account/profile.html',{'user':user,'posts':post})
+

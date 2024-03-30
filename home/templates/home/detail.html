@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% if request.user.id == post.user.id %}
+        <a href="{% url 'home:post_delete' post.id %}" class="btn btn-danger" > Delete </a>
+    {% endif %}
+    <h6> &nbsp </h6>
     <h4  class="card border-dark mb-3" style="max-width: 50rem;"  >  &nbsp {{ post.body }} </h4>
-    <div class="card border-info mb-3" style="max-width: 25rem;">  &nbsp Written By :  {{ post.user.username }} - {{ post.updated}} </div>
+    <div class="card border-info mb-3" style="max-width: 25rem;"> <a href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> {{ post.updated}} </div>
 
 {% endblock %}
