@@ -3,6 +3,7 @@
 {% block content %}
     {% if request.user.id == post.user.id %}
         <a href="{% url 'home:post_delete' post.id %}" class="btn btn-danger" > Delete </a>
+        <a href="{% url 'home:post_update' post.id %}" class="btn btn-info" > Update </a>
     {% endif %}
     <h6> &nbsp </h6>
     <h4  class="card border-dark mb-3" style="max-width: 50rem;"  >  &nbsp {{ post.body }} </h4>
