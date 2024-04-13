@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from home.models import Post
 from django.contrib.auth import views as auths_views
 from django.urls import reverse_lazy
+from .models import Relation
 
 
 # Create your views here.
@@ -74,9 +75,13 @@ class UserLogoutView(LoginRequiredMixin, View):
 
 class UserProfileView(LoginRequiredMixin, View):
     def get(self, request, user_id):
+        if_following = False
         user = get_object_or_404(User, pk=user_id)
         post = user.posts.all()
-        return render(request, 'account/profile.html', {'user': user, 'posts': post})
+        relation = Relation.objects.filter(from_user = request.user , to_user=user)
+        if relation.exists():
+            if_following = True
+        return render(request, 'account/profile.html', {'user': user, 'posts': post,'is_following':if_following})
 
 
 class UserPasswordResetView(auths_views.PasswordResetView):
@@ -100,9 +105,23 @@ class UserPasswordResetCompleteView(auths_views.PasswordResetCompleteView):
 
 class UserFollowView(LoginRequiredMixin, View):
     def get(self, request, user_id):
-        pass
+        user = User.objects.get(id=user_id)
+        relation = Relation.objects.filter(from_user = request.user , to_user = user)
+        if relation.exists():
+            messages.error(request,'you are already following this user','danger')
+        else :
+            Relation(from_user = request.user,to_user = user).save()
+            messages.success(request,'you followed this user','success')
+        return redirect('account:user_profile', user.id )
 
 
 class UserUnfollowView(LoginRequiredMixin, View):
     def get(self, request, user_id):
-        pass
+        user = User.objects.get(id=user_id)
+        relation = Relation.objects.filter(from_user = request.user , to_user = user)
+        if relation.exists():
+            relation.delete()
+            messages.success(request, 'you unfollowed this user', 'success')
+        else :
+            messages.error(request, 'you are not following this user', 'danger')
+        return redirect('account:user_profile', user.id )
