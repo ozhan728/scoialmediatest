@@ -6,7 +6,22 @@
         <a href="{% url 'home:post_update' post.id %}" class="btn btn-info" > Update </a>
     {% endif %}
     <h6> &nbsp </h6>
-    <h4  class="card border-dark mb-3" style="max-width: 50rem;"  >  &nbsp {{ post.body }} </h4>
-    <div class="card border-info mb-3" style="max-width: 25rem;"> <a href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> {{ post.updated}} </div>
+    <div class="card bg-white text-dark" >
+        <p class="card-header bg-dark text-white"> <a class="link-warning" href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> &nbsp {{ post.updated}} </p>
+        <p class="card-body">  {{ post.body }} </p>
+    </div>
+    <hr/>
+        <h6> Comments {{ comments.count }} : </h6>
+    <hr/>
+
+    {% for comment in comments %}
+        <div class="card bg-dark text-white" >
+            <p class="card-header bg-dark text-white"> <a class="link-info" href="{% url 'account:user_profile' comment.user.id %}" > {{ comment.user }} </a> &nbsp {{ comment.created|timesince}} </p>
+            <p class="card-body bg-white text-dark" > {{ comment.body }} </p>
+
+        </div>
+    {% empty %}
+        <p> no comment yet </p>
+    {% endfor %}
 
 {% endblock %}
