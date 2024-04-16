@@ -6,20 +6,40 @@
         <a href="{% url 'home:post_update' post.id %}" class="btn btn-info" > Update </a>
     {% endif %}
     <h6> &nbsp </h6>
-    <div class="card bg-white text-dark" >
-        <p class="card-header bg-dark text-white"> <a class="link-warning" href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> &nbsp {{ post.updated}} </p>
-        <p class="card-body">  {{ post.body }} </p>
+    <div class="card bg-dark text-dark " >
+        <p class="card-header bg-dark text-white p-3 "> <a class="link-warning" href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> &nbsp {{ post.updated}} </p>
+        <p class="card-body bg-white ">  {{ post.body }} </p>
     </div>
     <hr/>
         <h6> Comments {{ comments.count }} : </h6>
     <hr/>
 
-    {% for comment in comments %}
-        <div class="card bg-dark text-white" >
-            <p class="card-header bg-dark text-white"> <a class="link-info" href="{% url 'account:user_profile' comment.user.id %}" > {{ comment.user }} </a> &nbsp {{ comment.created|timesince}} </p>
-            <p class="card-body bg-white text-dark" > {{ comment.body }} </p>
+        {% if request.user.is_authenticated %}
+            <form action="" method="post" >
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="send"  >
+            </form>
+        {% else %}
+            <p class="alert alert-danger" > Only logged-in users can comment. </p>
+        {% endif %}
 
+     <hr/>
+
+    {% for comment in comments %}
+        <div class="card bg-secondary text-dark ms-3 me-3 mb-1 " >
+            <p class="card-header bg-dark text-white "> <a class="link-info" href="{% url 'account:user_profile' comment.user.id %}" > {{ comment.user }} </a> &nbsp {{ comment.created|timesince}} </p>
+            <p class="card-body bg-white text-dark " > {{ comment.body }} </p>
         </div>
+        {% with replies=comment.rcomments.all %}
+            {% for reply in replies %}
+                <div class="card bg-secondary text-dark ms-5 me-5 mb-1 " >
+                    <p class="card-header bg-dark text-dark "> <a class="link-info" href="{% url 'account:user_profile' reply.user.id %}" > {{ reply.user }} </a> &nbsp {{ reply.created|timesince}} </p>
+                    <p class="card-body bg-white text-dark " > {{ reply.body }} </p>
+
+                </div>
+            {% endfor %}
+        {% endwith %}
     {% empty %}
         <p> no comment yet </p>
     {% endfor %}
