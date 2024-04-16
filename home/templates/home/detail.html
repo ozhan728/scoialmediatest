@@ -34,8 +34,8 @@
         {% with replies=comment.rcomments.all %}
             {% for reply in replies %}
                 <div class="card bg-secondary text-dark ms-5 me-5 mb-1 " >
-                    <p class="card-header bg-dark text-dark "> <a class="link-info" href="{% url 'account:user_profile' reply.user.id %}" > {{ reply.user }} </a> &nbsp {{ reply.created|timesince}} </p>
-                    <p class="card-body bg-white text-dark " > {{ reply.body }} </p>
+                    <p class="card-header bg-dark text-white "> <a class="link-info" href="{% url 'account:user_profile' reply.user.id %}" > {{ reply.user }} </a> &nbsp {{ reply.created|timesince}} </p>
+                    <p class="card-body bg-white text-dark " > {{ reply.body }}  </p>
 
                 </div>
             {% endfor %}
