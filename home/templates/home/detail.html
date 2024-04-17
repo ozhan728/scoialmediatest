@@ -27,16 +27,22 @@
      <hr/>
 
     {% for comment in comments %}
-        <div class="card bg-secondary text-dark ms-3 me-3 mb-1 " >
+        <div class="card bg-secondary text-dark ms-3 me-3 mb-2 " >
             <p class="card-header bg-dark text-white "> <a class="link-info" href="{% url 'account:user_profile' comment.user.id %}" > {{ comment.user }} </a> &nbsp {{ comment.created|timesince}} </p>
             <p class="card-body bg-white text-dark " > {{ comment.body }} </p>
+            {% if request.user.is_authenticated %}
         </div>
+                <form class="text-white bg-secondary ms-5 me-5 mb-1 ps-2 pe-2 bt-2 pb-1"  action="{% url 'home:add_reply' post.id comment.id %}" method="post" >
+                    {% csrf_token %}
+                    {{ reply_form.as_p }}
+                    <input type="submit" value="send" >
+                </form>
+            {% endif %}
         {% with replies=comment.rcomments.all %}
             {% for reply in replies %}
                 <div class="card bg-secondary text-dark ms-5 me-5 mb-1 " >
                     <p class="card-header bg-dark text-white "> <a class="link-info" href="{% url 'account:user_profile' reply.user.id %}" > {{ reply.user }} </a> &nbsp {{ reply.created|timesince}} </p>
                     <p class="card-body bg-white text-dark " > {{ reply.body }}  </p>
-
                 </div>
             {% endfor %}
         {% endwith %}

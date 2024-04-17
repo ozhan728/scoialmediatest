@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.views import View
-from .models import Post
+from .models import Post , Comment
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .forms import PostUpdateForm , CommentCreateForm , CommentReplyForm
@@ -96,3 +96,19 @@ class PostCreateView(LoginRequiredMixin,View) :
         new_form.save()
         messages.success(request,'Post created','success')
         return redirect('home:post_detail', new_form.id , new_form.slug )
+
+class PostAddReplyView(LoginRequiredMixin,View) :
+    form_class = CommentReplyForm
+    def post(self,request,post_id,comment_id):
+        post = get_object_or_404(Post,id=post_id)
+        comment = get_object_or_404(Comment,id=comment_id)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            reply = form.save(commit=False)
+            reply.user = request.user
+            reply.post = post
+            reply.reply = comment
+            reply.is_reply = True
+            reply.save()
+            messages.success(request,'your reply submitted successfully','success')
+        return redirect('home:post_detail',post.id , post.slug)
