@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect , get_object_or_404
 from django.views import View
-from .models import Post , Comment
+from .models import Post , Comment , Vote
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from .forms import PostUpdateForm , CommentCreateForm , CommentReplyForm
@@ -112,3 +112,16 @@ class PostAddReplyView(LoginRequiredMixin,View) :
             reply.save()
             messages.success(request,'your reply submitted successfully','success')
         return redirect('home:post_detail',post.id , post.slug)
+
+
+class PostLikeView(LoginRequiredMixin,View) :
+    def get(self,request,post_id):
+        post = get_object_or_404(Post,id=post_id)
+        like = Vote.objects.filter(post=post , user = request.user )
+
+        if like.exists():
+            messages.error(request,'you have already liked this.  ','danger')
+        else:
+            Vote.objects.create(post=post,user=request.user)
+            messages.success(request,'you like the post successfully','success')
+        return redirect('home:post_detail' , post_id,post.slug )

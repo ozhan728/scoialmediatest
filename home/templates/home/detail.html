@@ -10,10 +10,15 @@
         <p class="card-header bg-dark text-white p-3 "> <a class="link-warning" href="{% url 'account:user_profile' post.user.id %}" > {{ post.user.username }} </a> &nbsp {{ post.updated}} </p>
         <p class="card-body bg-white ">  {{ post.body }} </p>
     </div>
+
+    {% if request.user.is_authenticated %}
+
+        <a href="{% url 'home:post_like' post.id %}" class="btn btn-primary col-1 mt-2 " > Like </a>
+
+    {% endif %}
     <hr/>
         <h6> Comments {{ comments.count }} : </h6>
     <hr/>
-
         {% if request.user.is_authenticated %}
             <form action="" method="post" >
                 {% csrf_token %}
