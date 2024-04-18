@@ -2,7 +2,14 @@
 
 {% block content %}
 
+        <form action="" method="get" >
 
+            {{ form.as_p }}
+            <input type="submit" value="Search" >
+
+        </form>
+
+        <hr/>
         {% for post in posts %}
             <div class="card bg-dark text-dark mb-2 p-1 " >
                 <p class="card-header bg-dark text-white "> <a class="link-warning" href="{% url 'account:user_profile' post.user.id %}" > {{ post.user }} </a> &nbsp {{ post.created}} </p>

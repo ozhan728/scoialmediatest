@@ -29,3 +29,7 @@ class CommentReplyForm(forms.ModelForm):
         labels = {
             'body': 'Reply ',
         }
+
+
+class PostSearchForm(forms.Form):
+    search = forms.CharField()
