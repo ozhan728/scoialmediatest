@@ -17,7 +17,7 @@ class HomeView(View) :
     def get(self,request):
         post = Post.objects.all()
         if request.GET.get('search'):
-            post = post.filter(body=request.GET['search'])
+            post = post.filter(body__contains=request.GET['search'])
         return render(request,'home/index.html',{'posts':post,'form':self.form_class})
 
 

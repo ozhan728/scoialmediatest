@@ -1,8 +1,8 @@
 Hello World !
 
-On this project i tried to make a simple Stack Overflow like site using Django/Python
+On this project I tried to make a simple Stack Overflow like site using Django/Python
 
-Some of the site features i have implemented :
+Some of the site features I have implemented :
 
 Users , Register , Login , UserProfiles , Posts/PostsEdit , Comments/Replies , Follow , PasswordReset , Likes , Searching , etc...
 
