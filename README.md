@@ -4,7 +4,7 @@ On this project I tried to make a simple Stack Overflow like site using Django/P
 
 Some of the site features I have implemented :
 
-Users , Register , Login , UserProfiles , Posts/PostsEdit , Comments/Replies , Follow , PasswordReset , Likes , Searching , etc...
+Users , Register , Login , UserProfile/ProfileEdit , Posts/PostsEdit , Comments/Replies , Follow , PasswordReset , Likes , Searching , etc...
 
 
 Ozhan !
